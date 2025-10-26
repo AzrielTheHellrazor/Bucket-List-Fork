@@ -1,0 +1,27 @@
+{
+  "name": "bucket-list",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bucket List dApp for Base (Sepolia)",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "clean": "hardhat clean",
+    "deploy:base-sepolia": "hardhat run scripts/deploy.js --network base_sepolia",
+    "serve": "npx http-server frontend -p 8080 --cors"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.10",
+    "http-server": "^14.1.1"
+  }
+}
+
+
+
+
+
+
+
+
