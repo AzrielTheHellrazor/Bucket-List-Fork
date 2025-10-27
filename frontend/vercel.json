@@ -6,6 +6,10 @@
   "framework": null,
   "rewrites": [
     {
+      "source": "/farcaster.json",
+      "destination": "/farcaster.json"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
