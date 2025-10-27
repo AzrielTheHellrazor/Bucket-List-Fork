@@ -79,11 +79,45 @@ const exampleBucketLists = [
   }
 ];
 
-// Show random example lists on page load
-function showExampleLists() {
-  const randomExamples = exampleBucketLists.sort(() => 0.5 - Math.random()).slice(0, 3);
+// Cache for real community addresses
+let realCommunityAddresses = [];
+
+// Display user list helper
+function displayUserList(addr, items, idx) {
+  const li = document.createElement('li');
+  li.style.marginTop = '16px';
+  li.style.padding = '12px';
+  li.style.background = 'rgba(15, 23, 42, 0.6)';
+  li.style.borderRadius = '8px';
   
+  const shortAddr = `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  li.innerHTML = `<strong style="color: #3b82f6; display: block; margin-bottom: 8px;">${shortAddr}</strong><ul style="list-style: none; padding: 0; margin: 0;">${items.map((item, i) => `<li style="padding: 2px 0; list-style: none;">${getEmojiForItem(item)} ${item}</li>`).join('')}</ul>`;
+  
+  otherList.appendChild(li);
+}
+
+// Show community lists (real + examples)
+async function showExampleLists() {
   otherList.innerHTML = '<li style="padding: 8px; color: #94a3b8; font-style: italic; list-style: none;">Browse community bucket lists:</li>';
+  
+  // Try to show real community lists if contract connected
+  if (contract && realCommunityAddresses.length > 0) {
+    for (let i = 0; i < Math.min(3, realCommunityAddresses.length); i++) {
+      try {
+        const addr = realCommunityAddresses[i];
+        const items = await contract.getItems(addr);
+        if (items.length > 0) {
+          displayUserList(addr, items, i);
+        }
+      } catch (err) {
+        console.log('Error loading community list:', err);
+      }
+    }
+    return;
+  }
+  
+  // Fallback to examples
+  const randomExamples = exampleBucketLists.sort(() => 0.5 - Math.random()).slice(0, 3);
   
   randomExamples.forEach((example, idx) => {
     const li = document.createElement('li');
@@ -420,6 +454,13 @@ addBtn.onclick = async () => {
     showNotification('Transaction sent! Waiting for confirmation...', 'info');
     await tx.wait();
     itemInput.value = '';
+    
+    // Add user to community cache
+    const userAddress = await signer.getAddress();
+    if (!realCommunityAddresses.includes(userAddress)) {
+      realCommunityAddresses.push(userAddress);
+    }
+    
     showNotification('Item added successfully! 🎉 (Paid 0.0001 ETH)', 'success');
     await refreshMine();
   } catch (e) {
