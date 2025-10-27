@@ -79,8 +79,8 @@ const exampleBucketLists = [
   }
 ];
 
-// Cache for real community addresses
-let realCommunityAddresses = [];
+// Cache for real community addresses (loaded from localStorage)
+let realCommunityAddresses = JSON.parse(localStorage.getItem('bucketListCommunity') || '[]');
 
 // Display user list helper
 function displayUserList(addr, items, idx) {
@@ -455,10 +455,11 @@ addBtn.onclick = async () => {
     await tx.wait();
     itemInput.value = '';
     
-    // Add user to community cache
+    // Add user to community cache and save to localStorage
     const userAddress = await signer.getAddress();
     if (!realCommunityAddresses.includes(userAddress)) {
       realCommunityAddresses.push(userAddress);
+      localStorage.setItem('bucketListCommunity', JSON.stringify(realCommunityAddresses));
     }
     
     showNotification('Item added successfully! 🎉 (Paid 0.0001 ETH)', 'success');
@@ -504,10 +505,17 @@ viewBtn.onclick = async () => {
     viewBtn.disabled = true;
     viewBtn.innerHTML = '<span class="loading"></span>Loading...';
     const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.esm.min.js');
-    const readProvider = new ethers.providers.JsonRpcProvider('https://sepolia.base.org');
+    const readProvider = new ethers.providers.JsonRpcProvider('https://mainnet.base.org');
     const readContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, readProvider);
     const items = await readContract.getItems(addr);
     renderList(otherList, items);
+    
+    // Add address to community cache if valid
+    if (items.length > 0 && !realCommunityAddresses.includes(addr)) {
+      realCommunityAddresses.push(addr);
+      localStorage.setItem('bucketListCommunity', JSON.stringify(realCommunityAddresses));
+    }
+    
     if (items.length === 0) {
       showNotification('No items found for this address.', 'warning');
     } else {
