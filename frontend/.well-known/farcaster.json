@@ -1,0 +1,25 @@
+{
+  "frame": {
+    "name": "Bucket List",
+    "version": "1",
+    "iconUrl": "https://bucket-list-silk.vercel.app/assets/icon.png",
+    "homeUrl": "https://bucket-list-silk.vercel.app",
+    "imageUrl": "https://bucket-list-silk.vercel.app/assets/image.png",
+    "splashImageUrl": "https://bucket-list-silk.vercel.app/assets/splash.png",
+    "splashBackgroundColor": "#1e293b",
+    "webhookUrl": "https://bucket-list-silk.vercel.app/api/webhook",
+    "subtitle": "Your bucket list. On-chain. Forever.",
+    "description": "Store your bucket list items on-chain on Base. Pay 0.0001 ETH per item and explore community lists.",
+    "author": "simplepixellife",
+    "authorUrl": "https://warpcast.com/simplepixellife",
+    "primaryCategory": "entertainment",
+    "tags": [
+      "base",
+      "bucketlist",
+      "social",
+      "onchain",
+      "lifestyle"
+    ]
+  }
+}
+
