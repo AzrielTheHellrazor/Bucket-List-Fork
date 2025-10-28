@@ -148,21 +148,21 @@ async function ensureConnected() {
   if (!provider) throw new Error('MetaMask required');
   const accounts = await provider.request({ method: 'eth_requestAccounts' });
   const chainId = await provider.request({ method: 'eth_chainId' });
-  // Base Sepolia: 0x14a34 (84532)
-  if (chainId !== '0x14a34') {
+  // Base Mainnet: 0x2105 (8453)
+  if (chainId !== '0x2105') {
     await provider.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: '0x14a34' }]
+      params: [{ chainId: '0x2105' }]
     }).catch(async (err) => {
       if (err.code === 4902) {
         await provider.request({
           method: 'wallet_addEthereumChain',
           params: [{
-            chainId: '0x14a34',
-            chainName: 'Base Sepolia',
-            rpcUrls: ['https://sepolia.base.org'],
+            chainId: '0x2105',
+            chainName: 'Base',
+            rpcUrls: ['https://mainnet.base.org'],
             nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
-            blockExplorerUrls: ['https://sepolia.basescan.org']
+            blockExplorerUrls: ['https://basescan.org']
           }]
         });
       } else { throw err; }
@@ -443,6 +443,34 @@ connectBtn.onclick = async () => {
 
 addBtn.onclick = async () => {
   if (!contract) return showNotification('Please connect wallet first', 'error');
+  
+  // Check network and switch to Base Mainnet if needed
+  const chainId = await provider.request({ method: 'eth_chainId' });
+  if (chainId !== '0x2105') {
+    try {
+      await provider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x2105' }]
+      }).catch(async (err) => {
+        if (err.code === 4902) {
+          await provider.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: '0x2105',
+              chainName: 'Base',
+              rpcUrls: ['https://mainnet.base.org'],
+              nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+              blockExplorerUrls: ['https://basescan.org']
+            }]
+          });
+        } else { throw err; }
+      });
+    } catch (e) {
+      showNotification('Please switch to Base network', 'error');
+      return;
+    }
+  }
+  
   const text = itemInput.value.trim();
   if (!text) return showNotification('Please enter a bucket list item', 'warning');
   try {
@@ -505,6 +533,7 @@ viewBtn.onclick = async () => {
     viewBtn.disabled = true;
     viewBtn.innerHTML = '<span class="loading"></span>Loading...';
     const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.esm.min.js');
+    // Use Base Mainnet to match the deployed contract/network used elsewhere in the app
     const readProvider = new ethers.providers.JsonRpcProvider('https://mainnet.base.org');
     const readContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, readProvider);
     const items = await readContract.getItems(addr);

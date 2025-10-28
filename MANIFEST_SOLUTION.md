@@ -81,3 +81,5 @@ Logo'yu kopyalayıp farklı isimlerle ekle:
 
 ⚠️ **accountAssociation bölümünü sil!** Vercel otomatik oluşturur.
 
+
+
