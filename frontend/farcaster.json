@@ -9,11 +9,11 @@
     "splashBackgroundColor": "#1e293b",
     "webhookUrl": "https://bucket-list-silk.vercel.app/api/webhook",
     "subtitle": "Your bucket list. On-chain. Forever.",
+    "description": "Store your bucket list items on-chain on Base. Pay 0.0001 ETH per item and explore community lists.",
     "primaryCategory": "entertainment",
-    "description": "Store your bucket list items permanently on-chain. Add your dreams to the blockchain, and explore community bucket lists on Base.",
-    "tags": ["base", "bucketlist", "social", "onchain", "lifestyle"],
-    "tagline": "",
-    "buttonTitle": ""
+    "tagline": "Your dreams, forever on-chain.",
+    "heroImageUrl": "https://bucket-list-silk.vercel.app/assets/image.png",
+    "tags": ["base", "bucketlist", "social", "onchain", "lifestyle"]
   }
 }
 
