@@ -8,6 +8,8 @@
     "splashImageUrl": "https://bucket-list-silk.vercel.app/assets/splash.png",
     "splashBackgroundColor": "#1e293b",
     "webhookUrl": "https://bucket-list-silk.vercel.app/api/webhook",
+    "author": "simplepixellife",
+    "authorUrl": "https://warpcast.com/simplepixellife",
     "subtitle": "Your bucket list. On-chain. Forever.",
     "description": "Store your bucket list items on-chain on Base. Pay 0.0001 ETH per item and explore community lists.",
     "primaryCategory": "entertainment",
