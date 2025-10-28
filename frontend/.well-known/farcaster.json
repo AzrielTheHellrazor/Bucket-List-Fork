@@ -1,4 +1,45 @@
 {
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Bucket List",
+    "author": "simplepixellife",
+    "authorUrl": "https://warpcast.com/simplepixellife",
+    "description": "Store your bucket list items on-chain on Base. Pay 0.0001 ETH per item and explore community lists.",
+    "iconUrl": "https://bucket-list-silk.vercel.app/assets/icon.png",
+    "homeUrl": "https://bucket-list-silk.vercel.app",
+    "imageUrl": "https://bucket-list-silk.vercel.app/assets/image.png",
+    "splashImageUrl": "https://bucket-list-silk.vercel.app/assets/splash.png",
+    "splashBackgroundColor": "#1e293b",
+    "buttonTitle": "Launch Bucket List",
+    "subtitle": "Your bucket list. On-chain. Forever.",
+    "heroImageUrl": "https://bucket-list-silk.vercel.app/assets/image.png",
+    "tagline": "Your dreams, forever on-chain.",
+    "ogTitle": "Bucket List on Base",
+    "ogDescription": "Your dreams, on-chain. Add items and explore the community.",
+    "ogImageUrl": "https://bucket-list-silk.vercel.app/assets/image.png",
+    "castShareUrl": "https://warpcast.com/~/compose?text=Check+out+this+app&embeds[]=https://bucket-list-silk.vercel.app",
+    "webhookUrl": "https://bucket-list-silk.vercel.app/api/webhook",
+    "license": "MIT",
+    "privacyPolicyUrl": "https://bucket-list-silk.vercel.app/privacy",
+    "tags": [
+      "base",
+      "bucketlist",
+      "social",
+      "onchain",
+      "lifestyle"
+    ],
+    "screenshotUrls": [
+      "https://bucket-list-silk.vercel.app/assets/splash.png",
+      "https://bucket-list-silk.vercel.app/assets/image.png"
+    ],
+    "noindex": false,
+    "primaryCategory": "entertainment"
+  },
   "frame": {
     "name": "Bucket List",
     "version": "1",
