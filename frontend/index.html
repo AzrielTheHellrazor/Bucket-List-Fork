@@ -599,46 +599,20 @@
     </footer>
 
     <script type="module" src="./main.js?v=3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@farcaster/mini-apps@latest/dist/sdk.umd.min.js" defer onload="(function(){try{(window.sdk||window.farcaster||window.Farcaster||{}).actions?.ready?.();}catch(e){}})()"></script>
     <script type="module">
-      // Farcaster Mini App SDK init with fallback + retry
-      async function initMiniAppSDK() {
-        let sdk;
+      // Farcaster Mini App SDK - call ready() to hide splash screen
+      import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk';
+      
+      // Call ready() after app is fully loaded
+      window.addEventListener('load', async () => {
         try {
-          // Try jsDelivr ESM first
-          const mod = await import('https://cdn.jsdelivr.net/npm/@farcaster/mini-apps@latest/dist/sdk.min.js');
-          sdk = mod.sdk || mod.default || mod;
-        } catch (_) {
-          try {
-            // Fallback to esm.sh
-            const mod2 = await import('https://esm.sh/@farcaster/mini-apps@latest');
-            sdk = mod2.sdk || mod2.default || mod2;
-          } catch (_) {}
-        }
-        if (!sdk || !sdk.actions) return false;
-        try {
-          // Signal readiness to the host environment
           await sdk.actions.ready();
           await sdk.actions.setTitle('Bucket List on Base');
-          return true;
-        } catch (_) {
-          return false;
+        } catch (err) {
+          // Ignore if not running inside Farcaster Mini App environment
+          console.log('Mini App SDK not available:', err);
         }
-      }
-
-      async function ensureReady() {
-        const ok = await initMiniAppSDK();
-        if (!ok) {
-          // Retry shortly in case the host isn’t ready yet
-          setTimeout(initMiniAppSDK, 500);
-        }
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', ensureReady);
-      } else {
-        ensureReady();
-      }
+      });
     </script>
   </body>
   </html>
