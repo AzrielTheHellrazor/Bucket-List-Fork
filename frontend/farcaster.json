@@ -1,4 +1,9 @@
 {
+  "accountAssociation": {
+    "header": "eyJmaWQiOjMyMjE5MywidHlwZSI6ImF1dGgiLCJrZXkiOiIweDUzNTFBYmZhOTAyMkQxRTgxMTdiMTFjYTM1NTZkZTQxNjRBZDM0ZmQifQ",
+    "payload": "eyJkb21haW4iOiJidWNrZXQtbGlzdC1iYXNlLnZlcmNlbC5hcHAifQ",
+    "signature": "QMTXHZ+1vVhRC7TN+rBcbM4Z+oTk++KUlDP6OMBfijZPH1oUfsncEkJ7m+n0/7aK9zuuIy9E7oKEbMvGbw0WQhs="
+  },
   "frame": {
     "name": "Bucket List",
     "version": "1",
