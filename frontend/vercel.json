@@ -4,14 +4,18 @@
   "outputDirectory": ".",
   "installCommand": "echo 'No install needed'",
   "framework": null,
+  "redirects": [
+    {
+      "source": "/.well-known/farcaster.json",
+      "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/019a2fb7-bc85-b130-a0f5-380248c0d023",
+      "permanent": false,
+      "statusCode": 307
+    }
+  ],
   "rewrites": [
     {
       "source": "/farcaster.json",
       "destination": "/farcaster.json"
-    },
-    {
-      "source": "/.well-known/farcaster.json",
-      "destination": "/.well-known/farcaster.json"
     },
     {
       "source": "/(.*)",
