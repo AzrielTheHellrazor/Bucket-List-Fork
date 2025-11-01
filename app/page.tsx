@@ -21,7 +21,7 @@ export default function Home() {
   const { setMiniAppReady, isMiniAppReady } = useMiniKit();
 
   const [contract, setContract] = useState<ethers.Contract | null>(null);
-  const [signer, setSigner] = useState<ethers.Signer | null>(null);
+  const [_signer, setSigner] = useState<ethers.Signer | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [userAddress, setUserAddress] = useState<string>("");
   const [myItems, setMyItems] = useState<string[]>([]);
@@ -31,69 +31,15 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState<{message: string, type: string} | null>(null);
 
-  // Example bucket lists to showcase the community feature
-  const exampleBucketLists = [
-    {
-      address: '0x1234...abcd',
-      items: [
-        'Visit the Northern Lights in Iceland',
-        'Skydiving from 15,000 feet',
-        'Learn to play the guitar',
-        'Road trip across America',
-        'Start my own business',
-        'Climb Mount Everest',
-        'Swim with dolphins',
-        'Learn Spanish fluently',
-        'Write a bestselling book',
-        'Own a supercar'
-      ]
-    },
-    {
-      address: '0x5678...efgh',
-      items: [
-        'See the Egyptian Pyramids',
-        'Scuba dive in the Great Barrier Reef',
-        'Go to a Metallica concert',
-        'Learn a new language',
-        'Write a book',
-        'Run the New York Marathon',
-        'Visit Machu Picchu',
-        'See the Taj Mahal',
-        'Hot air balloon ride',
-        'Master the art of cooking'
-      ]
-    },
-    {
-      address: '0x90ab...cdef',
-      items: [
-        'Visit all 7 continents',
-        'Run a marathon',
-        'Swim with dolphins',
-        'See the Northern Lights',
-        'Go on a safari',
-        'Learn to fly a plane',
-        'Go to space camp',
-        'Skydive in Dubai',
-        'Taste authentic Italian pizza in Naples',
-        'Build my dream house'
-      ]
-    }
-  ];
-
   useEffect(() => {
     if (!isMiniAppReady) {
       setMiniAppReady();
     }
   }, [setMiniAppReady, isMiniAppReady]);
 
-  useEffect(() => {
-    if (isConnected && typeof window !== 'undefined' && (window as any).ethereum) {
-      initializeContract();
-    }
-  }, [isConnected]);
-
   const initializeContract = async () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const provider = new ethers.BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
@@ -112,8 +58,17 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (isConnected && typeof window !== 'undefined' && (window as any).ethereum) {
+      initializeContract();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
+
   const connectWallet = async () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const eth = (window as any).ethereum;
       if (!eth) {
         showNotification('MetaMask is required', 'error');
@@ -132,8 +87,8 @@ export default function Home() {
         await eth.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: '0x2105' }],
-        }).catch(async (err: any) => {
-          if (err?.code === 4902) {
+        }).catch(async (err: unknown) => {
+          if (err && typeof err === 'object' && 'code' in err && err.code === 4902) {
             await eth.request({
               method: 'wallet_addEthereumChain',
               params: [{
@@ -151,8 +106,9 @@ export default function Home() {
       }
       setUserAddress(addr);
       setIsConnected(true);
-    } catch (e: any) {
-      showNotification(e?.message || 'Connection failed', 'error');
+    } catch (e: unknown) {
+      const message = e && typeof e === 'object' && 'message' in e && typeof e.message === 'string' ? e.message : 'Connection failed';
+      showNotification(message, 'error');
     }
   };
 
@@ -275,8 +231,9 @@ export default function Home() {
         const items = await contract.getItems(userAddress);
         setMyItems(items);
       }
-    } catch (error: any) {
-      showNotification(error.message || 'Error adding item', 'error');
+    } catch (error: unknown) {
+      const message = error && typeof error === 'object' && 'message' in error && typeof error.message === 'string' ? error.message : 'Error adding item';
+      showNotification(message, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -296,8 +253,9 @@ export default function Home() {
       
       showNotification('All items cleared successfully! 🗑️', 'success');
       setMyItems([]);
-    } catch (error: any) {
-      showNotification(error.message || 'Error clearing items', 'error');
+    } catch (error: unknown) {
+      const message = error && typeof error === 'object' && 'message' in error && typeof error.message === 'string' ? error.message : 'Error clearing items';
+      showNotification(message, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -324,8 +282,9 @@ export default function Home() {
       } else {
         showNotification(`Found ${items.length} items for this address`, 'success');
       }
-    } catch (error: any) {
-      showNotification(error.message || 'Error loading items', 'error');
+    } catch (error: unknown) {
+      const message = error && typeof error === 'object' && 'message' in error && typeof error.message === 'string' ? error.message : 'Error loading items';
+      showNotification(message, 'error');
     } finally {
       setIsLoading(false);
     }
